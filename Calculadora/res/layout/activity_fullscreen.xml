@@ -1,0 +1,331 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0099aa"
+    android:keepScreenOn="true"
+    tools:context=".FullscreenActivity" >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:fitsSystemWindows="true"
+        tools:ignore="UselessParent" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="top|center_horizontal"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:weightSum="1"
+            tools:ignore="UselessParent" >
+
+            <EditText
+                android:id="@+id/number"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:gravity="right"
+                android:singleLine="true"
+                android:soundEffectsEnabled="true"
+                android:textColor="@color/dark_gray"
+                android:textSize="28pt"
+                tools:ignore="All" />
+
+            <EditText
+                android:id="@+id/instRes"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:gravity="right"
+                android:singleLine="true"
+                android:soundEffectsEnabled="true"
+                android:textColor="@color/gray"
+                android:textSize="14pt"
+                tools:ignore="All" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                style="?metaButtonBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="top|center_horizontal"
+                android:background="@color/white_overlay"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                tools:ignore="UselessParent" >
+
+                <LinearLayout
+                    android:id="@+id/linearLayout21"
+                    style="?metaButtonBarStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="top|center_horizontal"
+                    android:layout_weight="0.75"
+                    android:background="@color/dark_gray"
+                    android:orientation="vertical"
+                    android:weightSum="1"
+                    tools:ignore="UselessParent" >
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout211"
+                        style="?metaButtonBarStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|center_horizontal"
+                        android:layout_weight="0.25"
+                        android:orientation="horizontal"
+                        tools:ignore="NestedWeights" >
+
+                        <Button
+                            android:id="@+id/btnSete"
+                            style="?metaButtonBarButtonStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:onClick="append"
+                            android:tag="7"
+                            android:text="@string/sete"
+                            android:textSize="12pt" />
+
+                        <Button
+                            android:id="@+id/btnOito"
+                            style="?metaButtonBarButtonStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:onClick="append"
+                            android:tag="8"
+                            android:text="@string/oito"
+                            android:textSize="12pt" />
+
+                        <Button
+                            android:id="@+id/btnNove"
+                            style="?metaButtonBarButtonStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:onClick="append"
+                            android:tag="9"
+                            android:text="@string/nove"
+                            android:textSize="12pt" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout212"
+                        style="?metaButtonBarStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|center_horizontal"
+                        android:layout_weight="0.25"
+                        android:orientation="horizontal"
+                        tools:ignore="UselessParent" >
+
+                        <Button
+                            android:id="@+id/btnQuatro"
+                            style="?metaButtonBarButtonStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:onClick="append"
+                            android:tag="4"
+                            android:text="@string/quatro"
+                            android:textSize="12pt" />
+
+                        <Button
+                            android:id="@+id/btnCinco"
+                            style="?metaButtonBarButtonStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:onClick="append"
+                            android:tag="5"
+                            android:text="@string/cinco"
+                            android:textSize="12pt" />
+
+                        <Button
+                            android:id="@+id/btnSeis"
+                            style="?metaButtonBarButtonStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:onClick="append"
+                            android:tag="6"
+                            android:text="@string/seis"
+                            android:textSize="12pt" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout213"
+                        style="?metaButtonBarStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|center_horizontal"
+                        android:layout_weight="0.25"
+                        android:orientation="horizontal"
+                        tools:ignore="UselessParent" >
+
+                        <Button
+                            android:id="@+id/btnUm"
+                            style="?metaButtonBarButtonStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:onClick="append"
+                            android:tag="1"
+                            android:text="@string/um"
+                            android:textSize="12pt" />
+
+                        <Button
+                            android:id="@+id/btnDois"
+                            style="?metaButtonBarButtonStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:onClick="append"
+                            android:tag="2"
+                            android:text="@string/dois"
+                            android:textSize="12pt" />
+
+                        <Button
+                            android:id="@+id/btnTres"
+                            style="?metaButtonBarButtonStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:onClick="append"
+                            android:tag="3"
+                            android:text="@string/tres"
+                            android:textSize="12pt" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout214"
+                        style="?metaButtonBarStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|center_horizontal"
+                        android:layout_weight="0.25"
+                        android:orientation="horizontal"
+                        tools:ignore="UselessParent" >
+
+                        <Button
+                            android:id="@+id/btnSeparador"
+                            style="?metaButtonBarButtonStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:onClick="append"
+                            android:tag="@string/separador"
+                            android:text="@string/separador"
+                            android:textSize="12pt" />
+
+                        <Button
+                            android:id="@+id/btnZero"
+                            style="?metaButtonBarButtonStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:onClick="append"
+                            android:tag="0"
+                            android:text="@string/zero"
+                            android:textSize="12pt" />
+
+                        <LinearLayout
+                            android:id="@+id/linearLayout2141"
+                            style="?metaButtonBarStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="top|center_horizontal"
+                            android:layout_weight="1"
+                            android:background="#0099aa"
+                            android:orientation="vertical"
+                            tools:ignore="UselessParent" >
+
+                            <Button
+                                android:id="@+id/btnCalcular"
+                                style="?metaButtonBarButtonStyle"
+                                android:layout_width="fill_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/white_overlay"
+                                android:onClick="calcular"
+                                android:tag="="
+                                android:text="@string/calcular"
+                                android:textColor="@color/dark_gray"
+                                android:textSize="12pt" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout22"
+                    style="?metaButtonBarStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="top|center_horizontal"
+                    android:layout_weight="0.25"
+                    android:background="@color/gray"
+                    android:orientation="vertical"
+                    android:weightSum="1"
+                    tools:ignore="UselessParent" >
+
+                    <Button
+                        android:id="@+id/btnLimpar"
+                        style="?metaButtonBarButtonStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"
+                        android:onClick="limpar"
+                        android:text="@string/limpar"
+                        tools:ignore="NestedWeights" />
+
+                    <Button
+                        android:id="@+id/btnDividir"
+                        style="?metaButtonBarButtonStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"
+                        android:onClick="append"
+                        android:tag="@string/dividir"
+                        android:text="@string/dividir" />
+
+                    <Button
+                        android:id="@+id/btnMultiplicar"
+                        style="?metaButtonBarButtonStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"
+                        android:onClick="append"
+                        android:tag="@string/multiplicar"
+                        android:text="@string/multiplicar" />
+
+                    <Button
+                        android:id="@+id/btnSubtrair"
+                        style="?metaButtonBarButtonStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"
+                        android:onClick="append"
+                        android:tag="-"
+                        android:text="@string/subtrair" />
+
+                    <Button
+                        android:id="@+id/btnSomar"
+                        style="?metaButtonBarButtonStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"
+                        android:onClick="append"
+                        android:tag="@string/somar"
+                        android:text="@string/somar" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+</FrameLayout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Calculadora</string>
+    <string name="calcular">=</string>
+    <string name="dividir_fala">&#247;</string>
+    <string name="multiplicar_fala">×</string>
+    <string name="subtrair_fala">menos</string>
+    <string name="somar_fala">+</string>
+    <string name="zero">0</string>
+    <string name="um">1</string>
+    <string name="dois">2</string>
+    <string name="tres">3</string>
+    <string name="quatro">4</string>
+    <string name="cinco">5</string>
+    <string name="seis">6</string>
+    <string name="sete">7</string>
+    <string name="oito">8</string>
+    <string name="nove">9</string>
+    <string name="separador">,</string>
+    <string name="somar">+</string>
+    <string name="subtrair">−</string>
+    <string name="dividir">&#247;</string>
+    <string name="multiplicar">×</string>
+    <string name="limpar">C</string>
+    <string name="limpar_fala">Limpar</string>
+
+</resources>
