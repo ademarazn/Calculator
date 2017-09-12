@@ -13,7 +13,7 @@ import android.widget.Toast;
 /**
  * Full-screen activity, ou seja, que exibe em tela cheia.
  * 
- * @author Ademar Zório Neto
+ * @author Ademar ZÃ³rio Neto
  * @since Classe criada em 26/08/2017
  */
 public class FullscreenActivity extends Activity {
@@ -22,7 +22,7 @@ public class FullscreenActivity extends Activity {
 	EditText visor, instRes;
 	Button limpar;
 
-	// Método que será chamado ao executar o aplicativo
+	// MÃ©todo que serÃ¡ chamado ao executar o aplicativo
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,17 +51,17 @@ public class FullscreenActivity extends Activity {
 				return true;
 			}
 		});
-	} // Fim do método onCreate
+	} // Fim do mÃ©todo onCreate
 
-	// Sobrescrita do método onBackPressed para vazio, ou seja,
-	// para não voltar para a activity SplashScreenActivity
+	// Sobrescrita do mÃ©todo onBackPressed para nÃ£o voltar para
+	// a activity SplashScreenActivity e ir para a tela inicial
 	@Override
 	public void onBackPressed() {
 		this.moveTaskToBack(true);
-	} // Fim do método onBackPressed
+	} // Fim do mÃ©todo onBackPressed
 
-	// Método que será chamado ao clicar no botão '=' e que irá realizar o
-	// cálculo
+	// MÃ©todo que serÃ¡ chamado ao clicar no botÃ£o '=' e que irÃ¡ realizar o
+	// cÃ¡lculo
 	public void calcular(View v) {
 		try {
 			Double res;
@@ -71,7 +71,7 @@ public class FullscreenActivity extends Activity {
 					.replace(getString(R.string.dividir), "/")
 					.replace(",", ".")
 					.replace(getString(R.string.infinity), "$")
-					.replace(getString(R.string.ninfinity), "§"));
+					.replace(getString(R.string.ninfinity), "Â§"));
 			for (int i = stringBuilder.length() - 1; i >= 0; i--) {
 				// System.out.println(stringBuilder.charAt(i));
 				if (stringBuilder.charAt(i) == '.') {
@@ -122,7 +122,7 @@ public class FullscreenActivity extends Activity {
 						null);
 			}
 			if (visor.getText().toString().length() > 11) {
-				instRes.setText("––>");
+				instRes.setText("â€“â€“>");
 			} else {
 				instRes.setText("");
 			}
@@ -145,30 +145,30 @@ public class FullscreenActivity extends Activity {
 			// Toast.LENGTH_SHORT).show();
 
 		}
-	} // Fim do método calcular
+	} // Fim do mÃ©todo calcular
 
-	// Método que recebe um valor e retorna a sua parte inteira
-	// ex.: entrada = 12.234 | saída = 12.0
+	// MÃ©todo que recebe um valor e retorna a sua parte inteira
+	// ex.: entrada = 12.234 | saÃ­da = 12.0
 	double parteInteira(double valor) {
 		if (valor >= 0.0) {
 			return Math.floor(valor);
 		} else {
 			return Math.ceil(valor);
 		}
-	} // Fim do método parteInteira
+	} // Fim do mÃ©todo parteInteira
 
-	// Método que recebe um valor e retorna a sua parte fracionária
-	// ex.: entrada = 12.234 | saída = 0.234
+	// MÃ©todo que recebe um valor e retorna a sua parte fracionÃ¡ria
+	// ex.: entrada = 12.234 | saÃ­da = 0.234
 	double parteFracionaria(double valor) {
 		if (valor >= 0.0) {
 			return valor - Math.floor(valor);
 		} else {
 			return valor - Math.ceil(valor);
 		}
-	} // Fim do método parteFracionaria
+	} // Fim do mÃ©todo parteFracionaria
 
-	// Método que avalia/calcula o valor passado em uma String
-	// ex.: entrada = "2+6*-2/32" | saída = 1.625
+	// MÃ©todo que avalia/calcula o valor passado em uma String
+	// ex.: entrada = "2+6*-2/32" | saÃ­da = 1.625
 	public static double eval(final String str) {
 		return new Object() {
 			int pos = -1, ch;
@@ -229,7 +229,7 @@ public class FullscreenActivity extends Activity {
 			}
 
 			double parseFactor() {
-				if (eat('§')) {
+				if (eat('Â§')) {
 					return Double.NEGATIVE_INFINITY; // infinity
 				}
 				if (eat('$')) {
@@ -278,10 +278,10 @@ public class FullscreenActivity extends Activity {
 				return x;
 			}
 		}.parse();
-	} // Fim do método eval
+	} // Fim do mÃ©todo eval
 
-	// Método que adiciona uma String 'toAdd' em outra String 'string'
-	// e faz uma chamada do método speak da classe TextToSpeech
+	// MÃ©todo que adiciona uma String 'toAdd' em outra String 'string'
+	// e faz uma chamada do mÃ©todo speak da classe TextToSpeech
 	// com o texto da String 'fala'
 	public void add(String string, String toAdd, String fala) {
 		if (string.endsWith(getString(R.string.subtrair))
@@ -299,11 +299,11 @@ public class FullscreenActivity extends Activity {
 		if (fala != null) {
 			speech.speak(fala, TextToSpeech.QUEUE_FLUSH, null);
 		}
-	} // Fim do método add
+	} // Fim do mÃ©todo add
 
-	// Método que será chamado ao clicar em algum número, sinal de operação ou
-	// vírgula/ponto
-	// no teclado da calculadora e que servirá para manipular os caracteres
+	// MÃ©todo que serÃ¡ chamado ao clicar em algum nÃºmero, sinal de operaÃ§Ã£o ou
+	// vÃ­rgula/ponto
+	// no teclado da calculadora e que servirÃ¡ para manipular os caracteres
 	// inseridos no visor
 	public void append(View v) {
 		visor.setTextColor(getResources().getColor(R.color.dark_gray));
@@ -318,20 +318,20 @@ public class FullscreenActivity extends Activity {
 				return;
 			} else if (texto.length() > 1) {
 				if ((texto.charAt(texto.length() - 2) == '+'
-						|| texto.charAt(texto.length() - 2) == '÷' || texto
-						.charAt(texto.length() - 2) == '×')
+						|| texto.charAt(texto.length() - 2) == 'Ã·' || texto
+						.charAt(texto.length() - 2) == 'Ã—')
 						&& texto.charAt(texto.length() - 1) == getString(
 								R.string.subtrair).charAt(0)) {
 					texto = texto.substring(0, texto.length() - 2)
 							+ getString(R.string.dividir);
 				} else if ((texto.charAt(texto.length() - 2) == '+'
-						|| texto.charAt(texto.length() - 2) == '÷' || texto
-						.charAt(texto.length() - 2) == '×')
+						|| texto.charAt(texto.length() - 2) == 'Ã·' || texto
+						.charAt(texto.length() - 2) == 'Ã—')
 						&& (texto.charAt(texto.length() - 1) == '+'
 								|| texto.charAt(texto.length() - 1) == getString(
 										R.string.subtrair).charAt(0)
-								|| texto.charAt(texto.length() - 1) == '÷' || texto
-								.charAt(texto.length() - 1) == '×')) {
+								|| texto.charAt(texto.length() - 1) == 'Ã·' || texto
+								.charAt(texto.length() - 1) == 'Ã—')) {
 					return;
 				}
 			}
@@ -343,20 +343,20 @@ public class FullscreenActivity extends Activity {
 				return;
 			} else if (texto.length() > 1) {
 				if ((texto.charAt(texto.length() - 2) == '+'
-						|| texto.charAt(texto.length() - 2) == '÷' || texto
-						.charAt(texto.length() - 2) == '×')
+						|| texto.charAt(texto.length() - 2) == 'Ã·' || texto
+						.charAt(texto.length() - 2) == 'Ã—')
 						&& texto.charAt(texto.length() - 1) == getString(
 								R.string.subtrair).charAt(0)) {
 					texto = texto.substring(0, texto.length() - 2)
 							+ getString(R.string.multiplicar);
 				} else if ((texto.charAt(texto.length() - 2) == '+'
-						|| texto.charAt(texto.length() - 2) == '÷' || texto
-						.charAt(texto.length() - 2) == '×')
+						|| texto.charAt(texto.length() - 2) == 'Ã·' || texto
+						.charAt(texto.length() - 2) == 'Ã—')
 						&& (texto.charAt(texto.length() - 1) == '+'
 								|| texto.charAt(texto.length() - 1) == getString(
 										R.string.subtrair).charAt(0)
-								|| texto.charAt(texto.length() - 1) == '÷' || texto
-								.charAt(texto.length() - 1) == '×')) {
+								|| texto.charAt(texto.length() - 1) == 'Ã·' || texto
+								.charAt(texto.length() - 1) == 'Ã—')) {
 					return;
 				}
 			}
@@ -366,13 +366,13 @@ public class FullscreenActivity extends Activity {
 					TextToSpeech.QUEUE_FLUSH, null);
 			if (texto.length() > 1) {
 				if (((texto.charAt(texto.length() - 2) == '+'
-						|| texto.charAt(texto.length() - 2) == '÷' || texto
-						.charAt(texto.length() - 2) == '×') && (texto
+						|| texto.charAt(texto.length() - 2) == 'Ã·' || texto
+						.charAt(texto.length() - 2) == 'Ã—') && (texto
 						.charAt(texto.length() - 1) == '+'
 						|| texto.charAt(texto.length() - 1) == getString(
 								R.string.subtrair).charAt(0)
-						|| texto.charAt(texto.length() - 1) == '÷' || texto
-						.charAt(texto.length() - 1) == '×'))
+						|| texto.charAt(texto.length() - 1) == 'Ã·' || texto
+						.charAt(texto.length() - 1) == 'Ã—'))
 						|| texto.charAt(texto.length() - 1) == '+') {
 					visor.setText(texto.substring(0, texto.length() - 1)
 							+ getString(R.string.subtrair));
@@ -387,20 +387,20 @@ public class FullscreenActivity extends Activity {
 				return;
 			} else if (texto.length() > 1) {
 				if ((texto.charAt(texto.length() - 2) == '+'
-						|| texto.charAt(texto.length() - 2) == '÷' || texto
-						.charAt(texto.length() - 2) == '×')
+						|| texto.charAt(texto.length() - 2) == 'Ã·' || texto
+						.charAt(texto.length() - 2) == 'Ã—')
 						&& texto.charAt(texto.length() - 1) == getString(
 								R.string.subtrair).charAt(0)) {
 					texto = texto.substring(0, texto.length() - 2)
 							+ getString(R.string.somar);
 				} else if ((texto.charAt(texto.length() - 2) == '+'
-						|| texto.charAt(texto.length() - 2) == '÷' || texto
-						.charAt(texto.length() - 2) == '×')
+						|| texto.charAt(texto.length() - 2) == 'Ã·' || texto
+						.charAt(texto.length() - 2) == 'Ã—')
 						&& (texto.charAt(texto.length() - 1) == '+'
 								|| texto.charAt(texto.length() - 1) == getString(
 										R.string.subtrair).charAt(0)
-								|| texto.charAt(texto.length() - 1) == '÷' || texto
-								.charAt(texto.length() - 1) == '×')) {
+								|| texto.charAt(texto.length() - 1) == 'Ã·' || texto
+								.charAt(texto.length() - 1) == 'Ã—')) {
 					return;
 				}
 			}
@@ -417,8 +417,8 @@ public class FullscreenActivity extends Activity {
 						qtdSeparador++;
 					} else if (texto.charAt(i) == '+'
 							|| texto.charAt(i) == getString(R.string.subtrair)
-									.charAt(0) || texto.charAt(i) == '×'
-							|| texto.charAt(i) == '÷') {
+									.charAt(0) || texto.charAt(i) == 'Ã—'
+							|| texto.charAt(i) == 'Ã·') {
 						break loopFor;
 					}
 				}
@@ -447,11 +447,11 @@ public class FullscreenActivity extends Activity {
 		}
 		visor.setSelection(visor.getText().toString().length());
 
-	} // Fim do método append
+	} // Fim do mÃ©todo append
 
-	// Método para fazer um cálculo "instantâneo", ou seja,
-	// exibir o resultado em um visor/TextView secundário
-	// antes mesmo de clicar no botão '='
+	// MÃ©todo para fazer um cÃ¡lculo "instantÃ¢neo", ou seja,
+	// exibir o resultado em um visor/TextView secundÃ¡rio
+	// antes mesmo de clicar no botÃ£o '='
 	private void setInstantRes(String valor) {
 		try {
 			if (!valor.endsWith(getString(R.string.multiplicar))
@@ -468,7 +468,7 @@ public class FullscreenActivity extends Activity {
 						.replace(getString(R.string.dividir), "/")
 						.replace(",", ".")
 						.replace(getString(R.string.infinity), "$")
-						.replace(getString(R.string.ninfinity), "§"));
+						.replace(getString(R.string.ninfinity), "Â§"));
 
 				if (res.isNaN()) {
 					visor.setTextColor(getResources().getColor(R.color.red));
@@ -507,9 +507,9 @@ public class FullscreenActivity extends Activity {
 			 * Toast.LENGTH_SHORT).show();
 			 */
 		}
-	} // Fim do método setInstantRes
+	} // Fim do mÃ©todo setInstantRes
 
-	// Método para remover o último caracter inserido na tela
+	// MÃ©todo para remover o Ãºltimo caracter inserido na tela
 	public void limpar(View v) {
 		visor.setTextColor(getResources().getColor(R.color.dark_gray));
 		instRes.setTextColor(getResources().getColor(R.color.gray));
@@ -519,7 +519,7 @@ public class FullscreenActivity extends Activity {
 			visor.setText(valor);
 			visor.setSelection(valor.length());
 
-			if (instRes.getText().toString().equals("––>")) {
+			if (instRes.getText().toString().equals("â€“â€“>")) {
 				if (valor.length() <= 11) {
 					instRes.setText("");
 				}
@@ -527,9 +527,9 @@ public class FullscreenActivity extends Activity {
 				setInstantRes(valor);
 			}
 		}
-	} // Fim do método limpar
+	} // Fim do mÃ©todo limpar
 
-	// Método para limpar todos os caracteres inseridos na tela
+	// MÃ©todo para limpar todos os caracteres inseridos na tela
 	public void limparTudo() {
 		visor.setTextColor(getResources().getColor(R.color.dark_gray));
 		instRes.setTextColor(getResources().getColor(R.color.gray));
@@ -538,6 +538,6 @@ public class FullscreenActivity extends Activity {
 		speech.stop();
 		speech.speak(getString(R.string.limpar_fala), TextToSpeech.QUEUE_FLUSH,
 				null);
-	} // Fim do método limparTudo
+	} // Fim do mÃ©todo limparTudo
 
 } // Fim da classe
