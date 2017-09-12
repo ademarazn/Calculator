@@ -24,5 +24,9 @@
     <string name="multiplicar">×</string>
     <string name="limpar">C</string>
     <string name="limpar_fala">Limpar</string>
+    <string name="nan">Não é número</string>
+    <string name="infinity">&#8734;</string>
+    <string name="ninfinity">–&#8734;</string>
+    <string name="erro">Erro</string>
 
 </resources>

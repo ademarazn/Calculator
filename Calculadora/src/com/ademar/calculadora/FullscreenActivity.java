@@ -11,10 +11,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 /**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
+ * Full-screen activity, ou seja, que exibe em tela cheia.
  * 
- * @see SystemUiHider
+ * @author Ademar Zório Neto
+ * @since Classe criada em 26/08/2017
  */
 public class FullscreenActivity extends Activity {
 
@@ -22,6 +22,7 @@ public class FullscreenActivity extends Activity {
 	EditText visor, instRes;
 	Button limpar;
 
+	// Método que será chamado ao executar o aplicativo
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,23 +51,68 @@ public class FullscreenActivity extends Activity {
 				return true;
 			}
 		});
-	}
+	} // Fim do método onCreate
 
+	// Sobrescrita do método onBackPressed para vazio, ou seja,
+	// para não voltar para a activity SplashScreenActivity
+	@Override
+	public void onBackPressed() {
+		this.moveTaskToBack(true);
+	} // Fim do método onBackPressed
+
+	// Método que será chamado ao clicar no botão '=' e que irá realizar o
+	// cálculo
 	public void calcular(View v) {
 		try {
-			double res;
-
-			res = eval(visor.getText().toString()
-					.replace(getString(R.string.subtrair), "-")
+			Double res;
+			StringBuilder stringBuilder = new StringBuilder(visor.getText()
+					.toString().replace(getString(R.string.subtrair), "-")
 					.replace(getString(R.string.multiplicar), "*")
 					.replace(getString(R.string.dividir), "/")
-					.replace(",", "."));
+					.replace(",", ".")
+					.replace(getString(R.string.infinity), "$")
+					.replace(getString(R.string.ninfinity), "§"));
+			for (int i = stringBuilder.length() - 1; i >= 0; i--) {
+				// System.out.println(stringBuilder.charAt(i));
+				if (stringBuilder.charAt(i) == '.') {
+					if (i > 0) {
+						char c = stringBuilder.charAt(i - 1);
+						if (c == '+' || c == '-' || c == '*' || c == '/') {
+							stringBuilder.insert(i, "0");
+						}
+					} else {
+						stringBuilder.insert(0, "0");
+					}
+				}
+			}
 
-			if (parteFracionaria(res) == 0.0) {
-				visor.setText(String.valueOf((int) res)
+			// Log.println(Log.DEBUG, "stringBuilderVisor",
+			// stringBuilder.toString());
+
+			res = eval(stringBuilder.toString());
+
+			if (res.isNaN()) {
+				visor.setTextColor(getResources().getColor(R.color.red));
+				instRes.setTextColor(getResources().getColor(R.color.red));
+				instRes.setText(getString(R.string.nan));
+				speech.speak(getString(R.string.nan), TextToSpeech.QUEUE_FLUSH,
+						null);
+				return;
+			} else if (res == Double.NEGATIVE_INFINITY) {
+				visor.setText(getString(R.string.subtrair)
+						+ getString(R.string.infinity));
+				speech.speak(getString(R.string.subtrair)
+						+ getString(R.string.infinity),
+						TextToSpeech.QUEUE_FLUSH, null);
+			} else if (res == Double.POSITIVE_INFINITY) {
+				visor.setText(getString(R.string.infinity));
+				speech.speak(getString(R.string.infinity),
+						TextToSpeech.QUEUE_FLUSH, null);
+			} else if (parteFracionaria(res) == 0.0) {
+				visor.setText(String.valueOf(res.intValue())
 						.replace("-", getString(R.string.subtrair))
 						.replace(".", getString(R.string.separador)));
-				speech.speak(String.valueOf((int) res),
+				speech.speak(String.valueOf(res.intValue()),
 						TextToSpeech.QUEUE_FLUSH, null);
 			} else {
 				visor.setText(String.valueOf(res)
@@ -75,36 +121,54 @@ public class FullscreenActivity extends Activity {
 				speech.speak(String.valueOf(res), TextToSpeech.QUEUE_FLUSH,
 						null);
 			}
-
 			if (visor.getText().toString().length() > 11) {
 				instRes.setText("––>");
 			} else {
 				instRes.setText("");
 			}
+		} catch (NumberFormatException e) {
+			visor.setTextColor(getResources().getColor(R.color.red));
+			instRes.setTextColor(getResources().getColor(R.color.red));
+			instRes.setText(getString(R.string.nan));
+			speech.speak(getString(R.string.nan), TextToSpeech.QUEUE_FLUSH,
+					null);
 		} catch (Exception e) {
-			/*
-			 * Toast.makeText(getApplicationContext(), e.getLocalizedMessage(),
-			 * Toast.LENGTH_SHORT).show();
-			 */
-		}
-	}
 
+			if (!e.getMessage().contains("Unexpected")) {
+				visor.setTextColor(getResources().getColor(R.color.red));
+				instRes.setTextColor(getResources().getColor(R.color.red));
+				instRes.setText(getString(R.string.erro));
+				speech.speak(getString(R.string.erro),
+						TextToSpeech.QUEUE_FLUSH, null);
+			}
+			// Toast.makeText(getApplicationContext(), e.getLocalizedMessage(),
+			// Toast.LENGTH_SHORT).show();
+
+		}
+	} // Fim do método calcular
+
+	// Método que recebe um valor e retorna a sua parte inteira
+	// ex.: entrada = 12.234 | saída = 12.0
 	double parteInteira(double valor) {
 		if (valor >= 0.0) {
 			return Math.floor(valor);
 		} else {
 			return Math.ceil(valor);
 		}
-	}
+	} // Fim do método parteInteira
 
+	// Método que recebe um valor e retorna a sua parte fracionária
+	// ex.: entrada = 12.234 | saída = 0.234
 	double parteFracionaria(double valor) {
 		if (valor >= 0.0) {
 			return valor - Math.floor(valor);
 		} else {
 			return valor - Math.ceil(valor);
 		}
-	}
+	} // Fim do método parteFracionaria
 
+	// Método que avalia/calcula o valor passado em uma String
+	// ex.: entrada = "2+6*-2/32" | saída = 1.625
 	public static double eval(final String str) {
 		return new Object() {
 			int pos = -1, ch;
@@ -165,6 +229,12 @@ public class FullscreenActivity extends Activity {
 			}
 
 			double parseFactor() {
+				if (eat('§')) {
+					return Double.NEGATIVE_INFINITY; // infinity
+				}
+				if (eat('$')) {
+					return Double.POSITIVE_INFINITY; // infinity
+				}
 				if (eat('+')) {
 					return parseFactor(); // unary plus
 				}
@@ -208,8 +278,11 @@ public class FullscreenActivity extends Activity {
 				return x;
 			}
 		}.parse();
-	}
+	} // Fim do método eval
 
+	// Método que adiciona uma String 'toAdd' em outra String 'string'
+	// e faz uma chamada do método speak da classe TextToSpeech
+	// com o texto da String 'fala'
 	public void add(String string, String toAdd, String fala) {
 		if (string.endsWith(getString(R.string.subtrair))
 				&& toAdd == getString(R.string.subtrair)) {
@@ -226,16 +299,32 @@ public class FullscreenActivity extends Activity {
 		if (fala != null) {
 			speech.speak(fala, TextToSpeech.QUEUE_FLUSH, null);
 		}
-	}
+	} // Fim do método add
 
+	// Método que será chamado ao clicar em algum número, sinal de operação ou
+	// vírgula/ponto
+	// no teclado da calculadora e que servirá para manipular os caracteres
+	// inseridos no visor
 	public void append(View v) {
+		visor.setTextColor(getResources().getColor(R.color.dark_gray));
+		instRes.setTextColor(getResources().getColor(R.color.gray));
+		instRes.setText("");
 		String tag = v.getTag().toString();
 		String texto = visor.getText().toString();
 		if (tag.equals(getString(R.string.dividir))) {
-			if (texto.isEmpty()) {
+			if (texto.isEmpty()
+					|| (texto.length() == 1 && texto.charAt(texto.length() - 1) == getString(
+							R.string.subtrair).charAt(0))) {
 				return;
 			} else if (texto.length() > 1) {
 				if ((texto.charAt(texto.length() - 2) == '+'
+						|| texto.charAt(texto.length() - 2) == '÷' || texto
+						.charAt(texto.length() - 2) == '×')
+						&& texto.charAt(texto.length() - 1) == getString(
+								R.string.subtrair).charAt(0)) {
+					texto = texto.substring(0, texto.length() - 2)
+							+ getString(R.string.dividir);
+				} else if ((texto.charAt(texto.length() - 2) == '+'
 						|| texto.charAt(texto.length() - 2) == '÷' || texto
 						.charAt(texto.length() - 2) == '×')
 						&& (texto.charAt(texto.length() - 1) == '+'
@@ -248,10 +337,19 @@ public class FullscreenActivity extends Activity {
 			}
 			add(texto, tag, getString(R.string.dividir_fala));
 		} else if (tag.equals(getString(R.string.multiplicar))) {
-			if (texto.isEmpty()) {
+			if (texto.isEmpty()
+					|| (texto.length() == 1 && texto.charAt(texto.length() - 1) == getString(
+							R.string.subtrair).charAt(0))) {
 				return;
 			} else if (texto.length() > 1) {
 				if ((texto.charAt(texto.length() - 2) == '+'
+						|| texto.charAt(texto.length() - 2) == '÷' || texto
+						.charAt(texto.length() - 2) == '×')
+						&& texto.charAt(texto.length() - 1) == getString(
+								R.string.subtrair).charAt(0)) {
+					texto = texto.substring(0, texto.length() - 2)
+							+ getString(R.string.multiplicar);
+				} else if ((texto.charAt(texto.length() - 2) == '+'
 						|| texto.charAt(texto.length() - 2) == '÷' || texto
 						.charAt(texto.length() - 2) == '×')
 						&& (texto.charAt(texto.length() - 1) == '+'
@@ -267,14 +365,15 @@ public class FullscreenActivity extends Activity {
 			speech.speak(getString(R.string.subtrair_fala),
 					TextToSpeech.QUEUE_FLUSH, null);
 			if (texto.length() > 1) {
-				if ((texto.charAt(texto.length() - 2) == '+'
+				if (((texto.charAt(texto.length() - 2) == '+'
 						|| texto.charAt(texto.length() - 2) == '÷' || texto
-						.charAt(texto.length() - 2) == '×')
-						&& (texto.charAt(texto.length() - 1) == '+'
-								|| texto.charAt(texto.length() - 1) == getString(
-										R.string.subtrair).charAt(0)
-								|| texto.charAt(texto.length() - 1) == '÷' || texto
-								.charAt(texto.length() - 1) == '×')) {
+						.charAt(texto.length() - 2) == '×') && (texto
+						.charAt(texto.length() - 1) == '+'
+						|| texto.charAt(texto.length() - 1) == getString(
+								R.string.subtrair).charAt(0)
+						|| texto.charAt(texto.length() - 1) == '÷' || texto
+						.charAt(texto.length() - 1) == '×'))
+						|| texto.charAt(texto.length() - 1) == '+') {
 					visor.setText(texto.substring(0, texto.length() - 1)
 							+ getString(R.string.subtrair));
 					return;
@@ -282,10 +381,19 @@ public class FullscreenActivity extends Activity {
 			}
 			add(texto, getString(R.string.subtrair), null);
 		} else if (tag.equals(getString(R.string.somar))) {
-			if (texto.isEmpty()) {
+			if (texto.isEmpty()
+					|| (texto.length() == 1 && texto.charAt(texto.length() - 1) == getString(
+							R.string.subtrair).charAt(0))) {
 				return;
 			} else if (texto.length() > 1) {
 				if ((texto.charAt(texto.length() - 2) == '+'
+						|| texto.charAt(texto.length() - 2) == '÷' || texto
+						.charAt(texto.length() - 2) == '×')
+						&& texto.charAt(texto.length() - 1) == getString(
+								R.string.subtrair).charAt(0)) {
+					texto = texto.substring(0, texto.length() - 2)
+							+ getString(R.string.somar);
+				} else if ((texto.charAt(texto.length() - 2) == '+'
 						|| texto.charAt(texto.length() - 2) == '÷' || texto
 						.charAt(texto.length() - 2) == '×')
 						&& (texto.charAt(texto.length() - 1) == '+'
@@ -296,15 +404,16 @@ public class FullscreenActivity extends Activity {
 					return;
 				}
 			}
-			add(visor.getText().toString(), tag, getString(R.string.somar_fala));
-		} else if (tag.equals(getString(R.string.separador))) {
+			add(texto, tag, getString(R.string.somar_fala));
+		} else if (tag.equals(getString(R.string.separador))
+				&& !texto.endsWith(getString(R.string.infinity))) {
 			try {
 				int qtdSeparador = 0;
 				loopFor: for (int i = texto.length() - 1; i >= 0; i--) {
-					System.out.println(texto.charAt(i));
+					// System.out.println(texto.charAt(i));
 					if (texto.charAt(i) == getString(R.string.separador)
 							.charAt(0)) {
-						System.out.println("separador");
+						// System.out.println("separador");
 						qtdSeparador++;
 					} else if (texto.charAt(i) == '+'
 							|| texto.charAt(i) == getString(R.string.subtrair)
@@ -313,7 +422,7 @@ public class FullscreenActivity extends Activity {
 						break loopFor;
 					}
 				}
-				System.out.println(qtdSeparador);
+				// System.out.println(qtdSeparador);
 				if (qtdSeparador > 0) {
 					return;
 				} else {
@@ -325,7 +434,7 @@ public class FullscreenActivity extends Activity {
 				Toast.makeText(getApplicationContext(),
 						e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
 			}
-		} else {
+		} else if (!texto.endsWith(getString(R.string.infinity))) {
 			visor.append(tag);
 
 			if (visor.getText().toString().length() > 1) {
@@ -338,9 +447,72 @@ public class FullscreenActivity extends Activity {
 		}
 		visor.setSelection(visor.getText().toString().length());
 
-	}
+	} // Fim do método append
 
+	// Método para fazer um cálculo "instantâneo", ou seja,
+	// exibir o resultado em um visor/TextView secundário
+	// antes mesmo de clicar no botão '='
+	private void setInstantRes(String valor) {
+		try {
+			if (!valor.endsWith(getString(R.string.multiplicar))
+					&& !valor.endsWith(getString(R.string.dividir))
+					&& !valor.endsWith(getString(R.string.somar))
+					&& !valor.endsWith(getString(R.string.subtrair))
+					&& (valor.contains(getString(R.string.multiplicar))
+							|| valor.contains(getString(R.string.dividir))
+							|| valor.contains(getString(R.string.somar)) || valor
+								.contains(getString(R.string.subtrair)))) {
+				Double res = eval(visor.getText().toString()
+						.replace(getString(R.string.subtrair), "-")
+						.replace(getString(R.string.multiplicar), "*")
+						.replace(getString(R.string.dividir), "/")
+						.replace(",", ".")
+						.replace(getString(R.string.infinity), "$")
+						.replace(getString(R.string.ninfinity), "§"));
+
+				if (res.isNaN()) {
+					visor.setTextColor(getResources().getColor(R.color.red));
+					instRes.setTextColor(getResources().getColor(R.color.red));
+					instRes.setText(getString(R.string.nan));
+					return;
+				} else if (res == Double.NEGATIVE_INFINITY) {
+					instRes.setText(getString(R.string.subtrair)
+							+ getString(R.string.infinity));
+				} else if (res == Double.POSITIVE_INFINITY) {
+					instRes.setText(getString(R.string.infinity));
+				} else if (parteFracionaria(res) == 0.0) {
+					instRes.setText(String.valueOf(res.intValue())
+							.replace("-", getString(R.string.subtrair))
+							.replace(".", getString(R.string.separador)));
+				} else {
+					instRes.setText(String.valueOf(res)
+							.replace("-", getString(R.string.subtrair))
+							.replace(".", getString(R.string.separador)));
+				}
+			} else {
+				instRes.setText("");
+			}
+		} catch (NumberFormatException e) {
+			instRes.setText("");
+			// visor.setTextColor(getResources().getColor(R.color.red));
+			// instRes.setTextColor(getResources().getColor(R.color.red));
+			// instRes.setText(getString(R.string.nan));
+		} catch (Exception e) {
+			instRes.setText("");
+			// visor.setTextColor(getResources().getColor(R.color.red));
+			// instRes.setTextColor(getResources().getColor(R.color.red));
+			// instRes.setText(getString(R.string.erro));
+			/*
+			 * Toast.makeText(getApplicationContext(), e.getLocalizedMessage(),
+			 * Toast.LENGTH_SHORT).show();
+			 */
+		}
+	} // Fim do método setInstantRes
+
+	// Método para remover o último caracter inserido na tela
 	public void limpar(View v) {
+		visor.setTextColor(getResources().getColor(R.color.dark_gray));
+		instRes.setTextColor(getResources().getColor(R.color.gray));
 		String valor = visor.getText().toString();
 		if (valor.length() > 0) {
 			valor = valor.substring(0, valor.length() - 1);
@@ -355,50 +527,17 @@ public class FullscreenActivity extends Activity {
 				setInstantRes(valor);
 			}
 		}
-	}
+	} // Fim do método limpar
 
-	private void setInstantRes(String valor) {
-		try {
-			if (!valor.endsWith(getString(R.string.multiplicar))
-					&& !valor.endsWith(getString(R.string.dividir))
-					&& !valor.endsWith(getString(R.string.somar))
-					&& !valor.endsWith(getString(R.string.subtrair))
-					&& (valor.contains(getString(R.string.multiplicar))
-							|| valor.contains(getString(R.string.dividir))
-							|| valor.contains(getString(R.string.somar)) || valor
-								.contains(getString(R.string.subtrair)))) {
-				double res = eval(visor.getText().toString()
-						.replace(getString(R.string.subtrair), "-")
-						.replace(getString(R.string.multiplicar), "*")
-						.replace(getString(R.string.dividir), "/")
-						.replace(",", "."));
-
-				if (parteFracionaria(res) == 0.0) {
-					instRes.setText(String.valueOf((int) res)
-							.replace("-", getString(R.string.subtrair))
-							.replace(".", getString(R.string.separador)));
-				} else {
-					instRes.setText(String.valueOf(res)
-							.replace("-", getString(R.string.subtrair))
-							.replace(".", getString(R.string.separador)));
-				}
-			} else {
-				instRes.setText("");
-			}
-		} catch (Exception e) {
-			/*
-			 * Toast.makeText(getApplicationContext(), e.getLocalizedMessage(),
-			 * Toast.LENGTH_SHORT).show();
-			 */
-		}
-	}
-
+	// Método para limpar todos os caracteres inseridos na tela
 	public void limparTudo() {
+		visor.setTextColor(getResources().getColor(R.color.dark_gray));
+		instRes.setTextColor(getResources().getColor(R.color.gray));
 		visor.setText("");
 		instRes.setText("");
 		speech.stop();
 		speech.speak(getString(R.string.limpar_fala), TextToSpeech.QUEUE_FLUSH,
 				null);
-	}
+	} // Fim do método limparTudo
 
-}
+} // Fim da classe

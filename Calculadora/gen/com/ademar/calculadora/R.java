@@ -22,6 +22,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int black_overlay=0x7f040000;
         public static final int dark_gray=0x7f040004;
         public static final int gray=0x7f040003;
+        public static final int red=0x7f040005;
         public static final int white=0x7f040002;
         public static final int white_overlay=0x7f040001;
     }
@@ -69,10 +70,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int dividir=0x7f050013;
         public static final int dividir_fala=0x7f050002;
         public static final int dois=0x7f050008;
+        public static final int erro=0x7f05001a;
+        public static final int infinity=0x7f050018;
         public static final int limpar=0x7f050015;
         public static final int limpar_fala=0x7f050016;
         public static final int multiplicar=0x7f050014;
         public static final int multiplicar_fala=0x7f050003;
+        public static final int nan=0x7f050017;
+        public static final int ninfinity=0x7f050019;
         public static final int nove=0x7f05000f;
         public static final int oito=0x7f05000e;
         public static final int quatro=0x7f05000a;
