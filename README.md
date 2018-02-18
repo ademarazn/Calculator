@@ -1,2 +1,2 @@
-# Calculadora
-Projeto Calculadora Simples Android
+# Calculator
+A basic calculator app developed for Android.
